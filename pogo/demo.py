@@ -2,6 +2,7 @@
 import argparse
 import logging
 import sys
+import time
 
 import util
 from api import PokeAuthSession
@@ -54,14 +55,7 @@ if __name__ == '__main__':
 
         # Things we need GPS for
         if args.location:
-            # Pokemon related
-            pokemon = trainer.findBestPokemon()
-            trainer.walkAndCatch(pokemon)
-
-            # Pokestop related
-            fort = trainer.findClosestFort()
             trainer.walkAndSpin(fort)
-
             # see Trainer.simpleBot() for logical usecases
             trainer.simpleBot()
 

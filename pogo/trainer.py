@@ -338,7 +338,7 @@ class Trainer(object):
         # Run the bot
         while True:
             forts = self.sortCloseForts()
-            self.cleanPokemon()
+            #self.cleanPokemon()
             self.cleanInventory()
             try:
                 for fort in forts:

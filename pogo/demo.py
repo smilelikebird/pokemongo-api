@@ -40,22 +40,27 @@ if __name__ == '__main__':
     # Authenticate with a given location
     # Location is not inherent in authentication
     # But is important to session
-    if args.location:
-        session = auth_session.authenticate(locationLookup=args.location)
-    else:
-        session = auth_session.authenticate()
+    while True:
+        try:
+            if args.location:
+                session = auth_session.authenticate(locationLookup=args.location)
+            else:
+                session = auth_session.authenticate()
+            break
+        except Exception as e:
+            logging.critical("problem during connection")
 
     # Time to show off what we can do
     if session:
         trainer = Trainer(auth_session, session)
 
         # General
-        trainer.getProfile()
-        trainer.getInventory()
+        #trainer.getProfile()
+        #trainer.getInventory()
 
         # Things we need GPS for
         if args.location:
-            trainer.walkAndSpin(fort)
+            #trainer.walkAndSpin(fort)
             # see Trainer.simpleBot() for logical usecases
             trainer.simpleBot()
 

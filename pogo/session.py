@@ -25,6 +25,7 @@ from state import State
 import requests
 import logging
 import random
+import time
 
 # Hide errors (Yes this is terrible, but prettier)
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -126,7 +127,13 @@ class PogoSession(object):
 
     # Reauthenticate
     def reauthenticate(self):
-        self._authSession.reauthenticate(self)
+        while True:
+            try:
+                self._authSession.reauthenticate(self)
+                break
+            except GeneralPogoException as e:
+                logging.critical("fail during reauthenticate. Retry in 2sec...")
+                time.sleep(2)
 
     # Request wrapping
     def wrapInRequest(self, payload, defaults=True):
@@ -190,6 +197,7 @@ class PogoSession(object):
             raise GeneralPogoException('Probably server fires.')
 
     def wrapAndRequest(self, payload, defaults=True):
+        time.sleep(2)
         res = self.request(self.wrapInRequest(payload, defaults=defaults))
         if defaults:
             self.parseDefault(res)
